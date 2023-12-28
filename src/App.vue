@@ -16,7 +16,7 @@
         <v-card>
           <v-card-title>Dxf file</v-card-title>
           <v-card-text>
-            <!-- <viewer-page :dxfData="selectedFile"></viewer-page> -->
+            <viewer-page :dxfData="selectedFile"></viewer-page>
           </v-card-text>
         </v-card>
       </v-dialog>

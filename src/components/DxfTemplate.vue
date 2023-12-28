@@ -1,5 +1,5 @@
 <template>
-  <v-container class="canvasContainer" ref="canvasContainer">
+  <div class="canvasContainer" ref="canvasContainer">
     <!-- <v-inner-loading :showing="isLoading" color="primary" style="z-index: 10" /> -->
     <div v-if="progress !== null" class="progress">
       <v-progress-linear
@@ -15,7 +15,7 @@
       <v-icon name="warning" class="text-red" style="font-size: 4rem" /> Error
       occurred: {{ error }}
     </div>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -33,6 +33,9 @@ export default {
     options: {
       default() {
         return {
+          // canvasWidth: 200,
+          // canvasHeight: 200,
+          // pointSize: 50,
           clearColor: new three.Color("#fff"),
           autoResize: true,
           colorCorrection: true,

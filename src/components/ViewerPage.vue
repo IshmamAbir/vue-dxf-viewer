@@ -76,6 +76,7 @@ export default {
           type = "negative";
           break;
       }
+      console.log("type and message", type, e.detail.message);
       this.$vuetify.notify({ type, message: e.detail.message });
     },
   },
