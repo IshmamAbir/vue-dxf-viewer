@@ -1,0 +1,26 @@
+{
+  "name": "dxf-view-app",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@mdi/font": "7.0.96",
+    "dxf-viewer": "^1.0.29",
+    "pinia": "^2.0.23",
+    "roboto-fontface": "*",
+    "three": "^0.160.0",
+    "vue": "^3.2.0",
+    "vuetify": "^3.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.0.0",
+    "less": "^4.2.0",
+    "unplugin-fonts": "^1.0.3",
+    "vite": "^4.2.0",
+    "vite-plugin-vuetify": "^1.0.0",
+    "worker-loader": "^3.0.8"
+  }
+}
