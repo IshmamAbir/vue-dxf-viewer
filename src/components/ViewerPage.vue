@@ -8,7 +8,6 @@
   </div>
 
   <div class="col relative-position">
-    <slot></slot>
     <DxfTemplate
       ref="viewer"
       :dxfUrl="dxfUrl"
@@ -42,6 +41,7 @@ export default {
   methods: {
     _onLoaded() {
       const layers = this.$refs.viewer.GetViewer().GetLayers();
+      console.log("local layers=> ", layers);
       // layers.forEach((lyr) => Vue.set(lyr, "isVisible", true));
       layers.forEach((lyr) => lyr[("isVisible", true)]);
       this.layers = layers;

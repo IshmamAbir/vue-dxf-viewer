@@ -1,19 +1,16 @@
 <template>
   <div class="canvasContainer" ref="canvasContainer">
+    dxf-template
     <!-- <v-inner-loading :showing="isLoading" color="primary" style="z-index: 10" /> -->
     <div v-if="progress !== null" class="progress">
-      <v-progress-linear
-        color="primary"
-        :indeterminate="progress < 0"
-        :value="progress"
-      />
+      <v-progress-linear color="primary" :indeterminate="progress !== null" />
       <div v-if="progressText !== null" class="progressText">
         {{ progressText }}
       </div>
     </div>
     <div v-if="error !== null" class="error" :title="error">
-      <v-icon name="warning" class="text-red" style="font-size: 4rem" /> Error
-      occurred: {{ error }}
+      <v-icon icon="mdi-alert" class="text-error" style="font-size: 3rem" />
+      Error occurred: {{ error }}
     </div>
   </div>
 </template>
@@ -74,29 +71,37 @@ export default {
   },
 
   methods: {
-    async load(url) {
+    // async load(url) {
+    load(url) {
       this.isLoading = true;
       this.error = null;
+      console.log("load method start !");
       try {
-        await this.dxfViewer.Load({
-          url,
-          fonts: this.fonts,
+        console.log("load method try block !");
+        // await this.dxfViewer.Load({
+        this.dxfViewer.Load({
+          url: url,
+          fonts: null,
           progressCbk: this.onProgress.bind(this),
           // workerFactory: DxfViewerWorker,
+          // workerFactory: DxfViewer.SetupWorker(),
         });
         console.log("try dxfviewer-> ", this.dxfViewer);
       } catch (error) {
-        console.warn(error);
+        console.log("load method catch block ! ", error);
+        console.warn("dxfLoad Error -> ", error);
         this.error = error.toString();
       } finally {
+        console.log("load method finally block !");
         this.isLoading = false;
         this.progressText = null;
         this.progress = null;
         this.curProgressPhase = null;
       }
+      console.log("load method end !");
     },
 
-    getViewer() {
+    GetViewer() {
       return this.dxfViewer;
     },
 
@@ -130,7 +135,7 @@ export default {
   mounted() {
     this.dxfViewer = new DxfViewer(this.$refs.canvasContainer, this.options);
     // this.dxfViewer = new DxfViewer(this.$refs.canvasContainer);
-    console.log("dxfviewer- ", this.dxfViewer);
+    console.log("mounted dxfviewer- ", this.dxfViewer);
     const subscribe = (eventName) => {
       this.dxfViewer.Subscribe(eventName, (e) =>
         this.$emit("dxf-" + eventName, e)

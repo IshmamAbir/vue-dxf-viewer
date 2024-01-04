@@ -3,9 +3,8 @@
     <v-list dense>
       Layers
       <v-list-item v-if="layers !== null" tag="label">
-        <v-col>
-          <v-checkbox :value="showAll" @input="_toggleAll" />
-        </v-col>
+        <v-checkbox :value="showAll" @input="_toggleAll" />
+
         <v-col> All layers </v-col>
       </v-list-item>
       <v-list-item
@@ -14,10 +13,10 @@
         :key="layer.name"
         tag="label"
       >
-        <v-col side class="q-pa-none">
+        <v-col>
           <v-icon :color="_getCssColor(layer.color)">mdi-label</v-icon>
         </v-col>
-        <v-col side top>
+        <v-col>
           <v-checkbox
             :value="layer.isVisible"
             @input="(e) => _toggleLayer(layer, e)"
