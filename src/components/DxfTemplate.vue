@@ -17,7 +17,8 @@
 
 <script>
 import { DxfViewer } from "dxf-viewer";
-import * as three from "three";
+import * as THREE from "three";
+import { isProxy, toRaw } from "vue";
 // import DxfViewerWorker from "worker-loader!./DxfViewerWorker.js";
 
 export default {
@@ -33,7 +34,7 @@ export default {
           // canvasWidth: 200,
           // canvasHeight: 200,
           // pointSize: 50,
-          clearColor: new three.Color("#fff"),
+          clearColor: new THREE.Color("white"),
           autoResize: true,
           colorCorrection: true,
           sceneOptions: {
@@ -51,7 +52,7 @@ export default {
       fonts: null,
       progressText: null,
       curProgressPhase: null,
-      dxfViewer: null,
+      // dxfViewer: null,
       error: null,
     };
   },
@@ -62,34 +63,48 @@ export default {
         console.log("watch dxfurl => ", dxfUrl);
         await this.load(dxfUrl);
       } else {
-        this.dxfViewer.clear();
+        this.dxfViewer.Clear();
         this.error = null;
         this.isLoading = false;
         this.progress = null;
       }
     },
+    // dxfUrl: {
+    //   async handler(dxfUrl) {
+    //     if (dxfUrl !== null) {
+    //       console.log("watch dxfurl => ", dxfUrl);
+    //       await this.load(dxfUrl);
+    //     } else {
+    //       this.dxfViewer.Clear();
+    //       this.error = null;
+    //       this.isLoading = false;
+    //       this.progress = null;
+    //     }
+    //   },
+    //   immediate: true,
+    // },
   },
 
   methods: {
-    // async load(url) {
-    load(url) {
+    async load(url) {
+      // load(url) {
       this.isLoading = true;
       this.error = null;
       console.log("load method start !");
       try {
-        console.log("load method try block !");
-        // await this.dxfViewer.Load({
-        this.dxfViewer.Load({
+        console.log("load method try block !", this.dxfViewer);
+        await this.dxfViewer.Load({
+          // this.dxfViewer.Load({
           url: url,
-          fonts: null,
-          progressCbk: this.onProgress.bind(this),
-          // workerFactory: DxfViewerWorker,
-          // workerFactory: DxfViewer.SetupWorker(),
         });
+        // if (isProxy(this.dxfViewer)) {
+        //   this.dxfViewer = toRaw(this.dxfViewer);
+        //   console.log("object convert -> ", this.dxfViewer);
+        // }
         console.log("try dxfviewer-> ", this.dxfViewer);
       } catch (error) {
         console.log("load method catch block ! ", error);
-        console.warn("dxfLoad Error -> ", error);
+        console.warn("dxfLoad catch warning -> ", error);
         this.error = error.toString();
       } finally {
         console.log("load method finally block !");
@@ -102,40 +117,49 @@ export default {
     },
 
     GetViewer() {
+      console.log("GetViewer method", this.dxfViewer);
       return this.dxfViewer;
     },
 
-    onProgress(phase, size, totalSize) {
-      console.log("onProgress phase=> ", phase);
-      if (phase !== this.curProgressPhase) {
-        switch (phase) {
-          case "font":
-            this.progressText = "Fetching fonts...";
-            break;
-          case "fetch":
-            this.progressText = "Fetching file...";
-            break;
-          case "parse":
-            this.progressText = "Parsing file...";
-            break;
-          case "prepare":
-            this.progressText = "Preparing rendering data...";
-            break;
-        }
-        this.curProgressPhase = phase;
-      }
-      if (totalSize === null) {
-        this.progress = -1;
-      } else {
-        this.progress = size / totalSize;
-      }
-    },
+    // onProgress(phase, size, totalSize) {
+    //   console.log("onProgress phase=> ", phase);
+    //   if (phase !== this.curProgressPhase) {
+    //     switch (phase) {
+    //       case "font":
+    //         this.progressText = "Fetching fonts...";
+    //         break;
+    //       case "fetch":
+    //         this.progressText = "Fetching file...";
+    //         break;
+    //       case "parse":
+    //         this.progressText = "Parsing file...";
+    //         break;
+    //       case "prepare":
+    //         this.progressText = "Preparing rendering data...";
+    //         break;
+    //     }
+    //     this.curProgressPhase = phase;
+    //   }
+    //   if (totalSize === null) {
+    //     this.progress = -1;
+    //   } else {
+    //     this.progress = size / totalSize;
+    //   }
+    // },
   },
-
+  emits: ["dxf-loaded", "dxf-cleared", "dxf-message"],
   mounted() {
-    this.dxfViewer = new DxfViewer(this.$refs.canvasContainer, this.options);
+    // this.dxfViewer = new DxfViewer(this.$refs.canvasContainer, this.options);
+    var proxy = new DxfViewer(this.$refs.canvasContainer, this.options);
+    console.log("proxy -> ", proxy);
+    this.dxfViewer = proxy;
+    if (isProxy(this.dxfViewer)) {
+      this.dxfViewer = toRaw(this.dxfViewer);
+      console.log("object convert -> ", this.dxfViewer);
+    }
+    console.log("mounted dxfviewer ->", this.dxfViewer);
     // this.dxfViewer = new DxfViewer(this.$refs.canvasContainer);
-    console.log("mounted dxfviewer- ", this.dxfViewer);
+
     const subscribe = (eventName) => {
       this.dxfViewer.Subscribe(eventName, (e) =>
         this.$emit("dxf-" + eventName, e)
@@ -144,11 +168,11 @@ export default {
     for (const eventName of [
       "loaded",
       "cleared",
-      "destroyed",
-      "resized",
-      "pointerdown",
-      "pointerup",
-      "viewChanged",
+      // "destroyed",
+      // "resized",
+      // "pointerdown",
+      // "pointerup",
+      // "viewChanged",
       "message",
     ]) {
       subscribe(eventName);

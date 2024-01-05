@@ -13,15 +13,14 @@
       <!-- <viewer-page :dxfData="selectedFile"></viewer-page> -->
       <viewer-page :dxf-url="dxfUrl"></viewer-page>
 
-      <v-dialog width="1000" v-model="dialogShow">
+      <!-- <v-dialog width="1000" v-model="dialogShow">
         <v-card>
           <v-card-title>Dxf file</v-card-title>
           <v-card-text>
-            <!-- <viewer-page :dxfData="selectedFile"></viewer-page> -->
             <viewer-page :dxf-url="dxfUrl"></viewer-page>
           </v-card-text>
         </v-card>
-      </v-dialog>
+      </v-dialog> -->
     </v-container>
   </v-app>
 </template>

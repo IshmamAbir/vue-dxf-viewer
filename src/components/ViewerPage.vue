@@ -1,12 +1,4 @@
 <template>
-  <div class="layersCol col-auto">
-    <LayersList
-      :layers="layers"
-      @toggleLayer="_onToggleLayer"
-      @toggleAll="_onToggleAll"
-    />
-  </div>
-
   <div class="col relative-position">
     <DxfTemplate
       ref="viewer"
@@ -14,6 +6,14 @@
       @dxf-loaded="_onLoaded"
       @dxf-cleared="_onCleared"
       @dxf-message="_onMessage"
+    />
+  </div>
+
+  <div class="layersCol col-auto">
+    <LayersList
+      :layers="layers"
+      @toggleLayer="_onToggleLayer"
+      @toggleAll="_onToggleAll"
     />
   </div>
 </template>
