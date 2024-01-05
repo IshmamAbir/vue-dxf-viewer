@@ -21,7 +21,6 @@
 <script>
 import DxfTemplate from "./DxfTemplate.vue";
 import { DxfViewer as _DxfViewer } from "dxf-viewer";
-// import * as Vue from "vue";
 import LayersList from "./DxfLayersList.vue";
 export default {
   name: "ViewerPage",
@@ -41,11 +40,8 @@ export default {
   methods: {
     _onLoaded() {
       const layers = this.$refs.viewer.GetViewer().GetLayers();
-      console.log("local layers=> ", layers);
-      // layers.forEach((lyr) => Vue.set(lyr, "isVisible", true));
       layers.forEach((lyr) => (lyr["isVisible"] = true));
       this.layers = layers;
-      console.log("onLoaded this.layers-> ", this.layers);
     },
 
     _onCleared() {
@@ -77,7 +73,6 @@ export default {
           type = "negative";
           break;
       }
-      console.log("type and message", type, e.detail.message);
       this.$vuetify.notify({ type, message: e.detail.message });
     },
   },

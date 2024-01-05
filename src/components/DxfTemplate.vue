@@ -60,7 +60,6 @@ export default {
   watch: {
     async dxfUrl(dxfUrl) {
       if (dxfUrl !== null) {
-        console.log("watch dxfurl => ", dxfUrl);
         await this.load(dxfUrl);
       } else {
         this.dxfViewer.Clear();
@@ -69,112 +68,48 @@ export default {
         this.progress = null;
       }
     },
-    // dxfUrl: {
-    //   async handler(dxfUrl) {
-    //     if (dxfUrl !== null) {
-    //       console.log("watch dxfurl => ", dxfUrl);
-    //       await this.load(dxfUrl);
-    //     } else {
-    //       this.dxfViewer.Clear();
-    //       this.error = null;
-    //       this.isLoading = false;
-    //       this.progress = null;
-    //     }
-    //   },
-    //   immediate: true,
-    // },
   },
 
   methods: {
     async load(url) {
-      // load(url) {
       this.isLoading = true;
       this.error = null;
-      console.log("load method start !");
       try {
-        console.log("load method try block !", this.dxfViewer);
         await this.dxfViewer.Load({
-          // this.dxfViewer.Load({
           url: url,
         });
         // if (isProxy(this.dxfViewer)) {
         //   this.dxfViewer = toRaw(this.dxfViewer);
         //   console.log("object convert -> ", this.dxfViewer);
         // }
-        console.log("try dxfviewer-> ", this.dxfViewer);
       } catch (error) {
-        console.log("load method catch block ! ", error);
-        console.warn("dxfLoad catch warning -> ", error);
         this.error = error.toString();
       } finally {
-        console.log("load method finally block !");
         this.isLoading = false;
         this.progressText = null;
         this.progress = null;
         this.curProgressPhase = null;
       }
-      console.log("load method end !");
     },
 
     GetViewer() {
-      console.log("GetViewer method", this.dxfViewer);
       return this.dxfViewer;
     },
-
-    // onProgress(phase, size, totalSize) {
-    //   console.log("onProgress phase=> ", phase);
-    //   if (phase !== this.curProgressPhase) {
-    //     switch (phase) {
-    //       case "font":
-    //         this.progressText = "Fetching fonts...";
-    //         break;
-    //       case "fetch":
-    //         this.progressText = "Fetching file...";
-    //         break;
-    //       case "parse":
-    //         this.progressText = "Parsing file...";
-    //         break;
-    //       case "prepare":
-    //         this.progressText = "Preparing rendering data...";
-    //         break;
-    //     }
-    //     this.curProgressPhase = phase;
-    //   }
-    //   if (totalSize === null) {
-    //     this.progress = -1;
-    //   } else {
-    //     this.progress = size / totalSize;
-    //   }
-    // },
   },
   emits: ["dxf-loaded", "dxf-cleared", "dxf-message"],
   mounted() {
-    // this.dxfViewer = new DxfViewer(this.$refs.canvasContainer, this.options);
     var proxy = new DxfViewer(this.$refs.canvasContainer, this.options);
     console.log("proxy -> ", proxy);
     this.dxfViewer = proxy;
     if (isProxy(this.dxfViewer)) {
       this.dxfViewer = toRaw(this.dxfViewer);
-      console.log("object convert -> ", this.dxfViewer);
     }
-    console.log("mounted dxfviewer ->", this.dxfViewer);
-    // this.dxfViewer = new DxfViewer(this.$refs.canvasContainer);
-
     const subscribe = (eventName) => {
       this.dxfViewer.Subscribe(eventName, (e) =>
         this.$emit("dxf-" + eventName, e)
       );
     };
-    for (const eventName of [
-      "loaded",
-      "cleared",
-      // "destroyed",
-      // "resized",
-      // "pointerdown",
-      // "pointerup",
-      // "viewChanged",
-      "message",
-    ]) {
+    for (const eventName of ["loaded", "cleared", "message"]) {
       subscribe(eventName);
     }
   },
