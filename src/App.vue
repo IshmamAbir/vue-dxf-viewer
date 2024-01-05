@@ -55,7 +55,6 @@ export default {
       }
     },
     onFileChange(file) {
-      console.log(file[0]);
       this.dialogShow = true;
       if (!file) {
         this._OnFileCleared();
@@ -67,8 +66,6 @@ export default {
 
       this.inputFile = file[0];
       this.dxfUrl = URL.createObjectURL(this.inputFile);
-      console.log("selected file -> ", this.selectedFile);
-      console.log("dxfurl -> ", this.dxfUrl);
     },
   },
   destroyed() {

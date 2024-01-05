@@ -45,7 +45,7 @@ export default defineConfig({
   module: {
     // rules: [
     //   {
-    //     test: /[\\\/]node_modules[\\\/]dxf-viewer[\\\/]/,
+    //     test: /DxfViewerWorker\.js$/,
     //     use: { loader: "worker-loader" },
     //   },
     // ],

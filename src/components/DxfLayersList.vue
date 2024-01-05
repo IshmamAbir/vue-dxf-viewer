@@ -3,7 +3,7 @@
     <v-list dense>
       Layers
       <v-list-item v-if="layers !== null" tag="label">
-        <v-checkbox :value="showAll" @input="_toggleAll" />
+        <v-checkbox v-model="showAll" @update:model-value="_toggleAll" />
 
         <v-col> All layers </v-col>
       </v-list-item>
@@ -18,8 +18,8 @@
         </v-col>
         <v-col>
           <v-checkbox
-            :value="layer.isVisible"
-            @input="(e) => _toggleLayer(layer, e)"
+            v-model="layer.isVisible"
+            @update:model-value="(e) => _toggleLayer(layer, e)"
           />
         </v-col>
         <v-col>
@@ -53,7 +53,7 @@ export default {
       showAll: null,
     };
   },
-
+  emits: ["toggleLayer", "toggleAll"],
   methods: {
     _toggleLayer(layer, newState) {
       this.$emit("toggleLayer", layer, newState);
