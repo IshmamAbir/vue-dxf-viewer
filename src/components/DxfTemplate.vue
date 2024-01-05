@@ -80,7 +80,6 @@ export default {
         });
         // if (isProxy(this.dxfViewer)) {
         //   this.dxfViewer = toRaw(this.dxfViewer);
-        //   console.log("object convert -> ", this.dxfViewer);
         // }
       } catch (error) {
         this.error = error.toString();
@@ -99,7 +98,6 @@ export default {
   emits: ["dxf-loaded", "dxf-cleared", "dxf-message"],
   mounted() {
     var proxy = new DxfViewer(this.$refs.canvasContainer, this.options);
-    console.log("proxy -> ", proxy);
     this.dxfViewer = proxy;
     if (isProxy(this.dxfViewer)) {
       this.dxfViewer = toRaw(this.dxfViewer);
