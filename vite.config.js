@@ -39,15 +39,4 @@ export default defineConfig({
     port: 3000,
     host: true,
   },
-  optimizeDeps: {
-    include: ["three", "worker-loader!*"],
-  },
-  module: {
-    // rules: [
-    //   {
-    //     test: /DxfViewerWorker\.js$/,
-    //     use: { loader: "worker-loader" },
-    //   },
-    // ],
-  },
 });

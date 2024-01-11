@@ -1,4 +1,14 @@
 <template>
+  <div class="layersCol col-auto">
+    <LayersList
+      :layers="layers"
+      @toggleLayer="_onToggleLayer"
+      @toggleAll="_onToggleAll"
+    />
+  </div>
+
+  <v-divider />
+
   <div class="col relative-position">
     <DxfTemplate
       ref="viewer"
@@ -6,14 +16,6 @@
       @dxf-loaded="_onLoaded"
       @dxf-cleared="_onCleared"
       @dxf-message="_onMessage"
-    />
-  </div>
-
-  <div class="layersCol col-auto">
-    <LayersList
-      :layers="layers"
-      @toggleLayer="_onToggleLayer"
-      @toggleAll="_onToggleAll"
     />
   </div>
 </template>
@@ -73,7 +75,7 @@ export default {
           type = "negative";
           break;
       }
-      this.$vuetify.notify({ type, message: e.detail.message });
+      console.warn(type, e.detail.message);
     },
   },
 };

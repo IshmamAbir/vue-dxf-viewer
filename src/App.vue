@@ -2,6 +2,7 @@
   <v-app>
     <v-container>
       <v-file-input
+        v-if="selectedFile === null"
         accept=".dxf"
         density="compact"
         v-model="selectedFile"
@@ -12,15 +13,6 @@
 
       <!-- <viewer-page :dxfData="selectedFile"></viewer-page> -->
       <viewer-page :dxf-url="dxfUrl"></viewer-page>
-
-      <!-- <v-dialog width="1000" v-model="dialogShow">
-        <v-card>
-          <v-card-title>Dxf file</v-card-title>
-          <v-card-text>
-            <viewer-page :dxf-url="dxfUrl"></viewer-page>
-          </v-card-text>
-        </v-card>
-      </v-dialog> -->
     </v-container>
   </v-app>
 </template>
@@ -32,7 +24,6 @@ export default {
   data() {
     return {
       selectedFile: null,
-      dialogShow: false,
       dxfUrl: null,
       inputFile: null,
       inputUrl: null,
@@ -54,7 +45,6 @@ export default {
       }
     },
     onFileChange(file) {
-      this.dialogShow = true;
       if (!file) {
         this._OnFileCleared();
         return;

@@ -1,33 +1,41 @@
 <template>
-  <div class="root">
-    <v-list dense>
-      Layers
-      <v-list-item v-if="layers !== null" tag="label">
-        <v-checkbox v-model="showAll" @update:model-value="_toggleAll" />
+  <v-container>
+    Layers List
+    <v-row v-if="layers !== null">
+      <v-col>
+        <v-checkbox
+          v-model="showAll"
+          @update:model-value="_toggleAll"
+          label="All Layers"
+        ></v-checkbox>
+      </v-col>
+    </v-row>
 
-        <v-col> All layers </v-col>
-      </v-list-item>
-      <v-list-item
-        v-if="layers !== null"
+    <v-row v-if="layers !== null">
+      <v-col
         v-for="layer in layers"
         :key="layer.name"
-        tag="label"
+        md="3"
+        lg="3"
+        sm="4"
+        xs="6"
       >
-        <v-col>
-          <v-icon :color="_getCssColor(layer.color)">mdi-label</v-icon>
-        </v-col>
-        <v-col>
-          <v-checkbox
-            v-model="layer.isVisible"
-            @update:model-value="(e) => _toggleLayer(layer, e)"
-          />
-        </v-col>
-        <v-col>
-          {{ layer.displayName }}
-        </v-col>
-      </v-list-item>
-    </v-list>
-  </div>
+        <!-- <v-icon :color="_getCssColor(layer.color)">mdi-label</v-icon> -->
+        <v-checkbox
+          density="compact"
+          v-model="layer.isVisible"
+          @update:model-value="(e) => _toggleLayer(layer, e)"
+          :label="layer.displayName"
+        >
+          <template v-slot:prepend>
+            <v-icon :color="_getCssColor(layer.color)" class="pl-5"
+              >mdi-label</v-icon
+            >
+          </template>
+        </v-checkbox>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -42,15 +50,9 @@ export default {
     },
   },
 
-  watch: {
-    layers() {
-      this.showAll = null;
-    },
-  },
-
   data() {
     return {
-      showAll: null,
+      showAll: true,
     };
   },
   emits: ["toggleLayer", "toggleAll"],
@@ -75,11 +77,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="less">
-.root {
-  height: 100%;
-  max-height: 100%;
-  width: 300px;
-}
-</style>

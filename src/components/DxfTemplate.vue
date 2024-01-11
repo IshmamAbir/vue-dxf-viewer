@@ -125,35 +125,9 @@ export default {
   width: 100%;
   height: 100%;
   min-width: 100px;
-  min-height: 100px;
-
-  .progress {
-    position: absolute;
-    z-index: 20;
-    width: 90%;
-    margin: 20px 5%;
-
-    .progressText {
-      margin: 10px 20px;
-      font-size: 14px;
-      color: #262d33;
-      text-align: center;
-    }
-  }
-
-  .error {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: 20;
-    padding: 30px;
-
-    img {
-      width: 24px;
-      height: 24px;
-      vertical-align: middle;
-      margin: 4px;
-    }
-  }
+  min-height: 80vh;
+  border: #000000;
+  border-radius: 10px;
+  border-color: #262d33;
 }
 </style>
